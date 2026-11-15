@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/pax/random_git_clones/wayland-client/ImageClient/cmake_install.cmake",
+		"/home/pax/random_git_clones/wayland-client/ImageClient/display-wayland/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

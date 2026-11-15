@@ -1,6 +1,15 @@
 // would like to make note, wayland shells are depricated.
 // We use xdg desktop shell (x desktop group)
 // this is standard among linux desktops, but requires extra bullshit
+#include <stdio.h>
+#include <string.h>
+
+
+#include <syscall.h>
+#include <unistd.h>
+#include <sys/mman.h>
+
+#include <wayland-client.h>
 #include "xdg-shell-client-protocol.h"
 
 
@@ -23,14 +32,7 @@ struct xdg_wm_base_listener sh_list = {
 // look here: https://wayland-book.com/xdg-shell-basics.html
 struct xdg_toplevel* top;
 
-#include <stdio.h>
-#include <string.h>
 
-#include <syscall.h>
-#include <unistd.h>
-#include <sys/mman.h>
-
-#include <wayland-client.h>
 
 struct wl_compositor *compositor;
 struct wl_shm *shm;
@@ -70,8 +72,21 @@ const struct wl_registry_listener registry_listener = {
     .global_remove = registry_global_remove_handler
 };
 
-int main(void)
+/*
+Displays an image;
+width, height are width and height of the image respectively
+pix[][] is a c-type 3d array consisting of integers, that hold width,height,blue,green,red,alpha pixels
+*/
+int display_window_image(
+    int width,
+    int height,
+    int stride,
+    uint8_t pix[width][height][stride]
+)
 {
+    // The core global object. This is a special singleton object. It is used for internal Wayland protocol features.
+    // 0 is the display. Usually set by the WAYLAND_DISPLAY env var.
+    // 0 means it will display on your current WAYLAND environment.
     struct wl_display *display = wl_display_connect(0);
     struct wl_registry *registry = wl_display_get_registry(display);
     wl_registry_add_listener(registry, &registry_listener, NULL);
@@ -79,12 +94,14 @@ int main(void)
     // wait for the "initial" set of globals to appear
     wl_display_roundtrip(display);
 
+    // This is a surface.
+    // A surface is just a bunch of pixels
+    // it has many requests it can do to the server, like destroy, and damage
     struct wl_surface *surface = wl_compositor_create_surface(compositor);
-
+ 
+    
     // gonna need to figure out how to dynamically resize this <3
-    int width = 200;
-    int height = 200;
-    int stride = width * 4;
+    
     int size = stride * height;  // bytes
 
     // open an anonymous file and write some zero bytes to it
@@ -109,10 +126,10 @@ int main(void)
         } *px = (struct pixel *) (data + y * stride + x * 4);
 
         // yellow
-        px->alpha = 255;
-        px->red = 255;
-        px->green = 255;
-        px->blue = 0;
+        px->alpha = pix[width][height][0];
+        px->red = pix[width][height][1];
+        px->green = pix[width][height][2];
+        px->blue = pix[width][height][3];
         }
     }
 
@@ -132,12 +149,11 @@ int main(void)
     xdg_toplevel_set_title(top, "Hello Worl");
 
 
-    wl_surface_attach(surface, buffer, 0, 0); // commit to the wayland compositr
-    
-    wl_surface_commit(surface);
+    wl_surface_attach(surface, buffer, 0, 0); 
+    wl_surface_commit(surface); // commit to the wayland compositr
 
-    while (1) {
-        wl_display_dispatch(display);
-    }
-
+    while (wl_display_dispatch(display) != -1) {
+    /* This space deliberately left blank */
+    }   
 }
+

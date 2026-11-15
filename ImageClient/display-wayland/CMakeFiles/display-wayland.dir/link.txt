@@ -1,0 +1,2 @@
+/usr/bin/ar qc libdisplay-wayland.a "CMakeFiles/display-wayland.dir/display.c.o" "CMakeFiles/display-wayland.dir/xdg-shell-protocol.c.o"
+/usr/bin/ranlib libdisplay-wayland.a

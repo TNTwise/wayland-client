@@ -41,4 +41,5 @@ display-wayland/CMakeFiles/display-wayland.dir/display.c.o: \
  /usr/include/bits/iscanonical.h /usr/include/inttypes.h \
  /usr/include/wayland-version.h /usr/include/wayland-client-protocol.h \
  /usr/include/wayland-client.h \
- /home/pax/random_git_clones/wayland-client/ImageClient/display-wayland/xdg-shell-client-protocol.h
+ /home/pax/random_git_clones/wayland-client/ImageClient/display-wayland/xdg-shell-client-protocol.h \
+ /home/pax/random_git_clones/wayland-client/ImageClient/display-wayland/display.h

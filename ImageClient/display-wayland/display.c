@@ -78,10 +78,7 @@ width, height are width and height of the image respectively
 pix[][] is a c-type 3d array consisting of integers, that hold width,height,blue,green,red,alpha pixels
 */
 int display_window_image(
-    int width,
-    int height,
-    int stride,
-    uint8_t pix[width][height][stride]
+    const raw_image* raw_image
 )
 {
     // The core global object. This is a special singleton object. It is used for internal Wayland protocol features.

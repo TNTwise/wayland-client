@@ -3,6 +3,7 @@
 
 display-wayland/CMakeFiles/display-wayland.dir/display.c.o
  /home/pax/random_git_clones/wayland-client/ImageClient/display-wayland/display.c
+ /home/pax/random_git_clones/wayland-client/ImageClient/display-wayland/display.h
  /home/pax/random_git_clones/wayland-client/ImageClient/display-wayland/xdg-shell-client-protocol.h
  /usr/include/asm/unistd.h
  /usr/include/asm/unistd_64.h

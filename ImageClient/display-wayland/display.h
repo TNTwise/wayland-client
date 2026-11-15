@@ -10,12 +10,12 @@ extern "C" {
 struct raw_image {
     int width;
     int height;
-    int stride;
+    int stride; // bytes per pixel
     uint8_t* pix;
 };
 
 void display_window_image(
-    raw_image raw_image
+    raw_image* raw_image
 );
 
 

@@ -97,6 +97,8 @@ ImageViewer: CMakeFiles/ImageViewer.dir/main.cpp.o
 ImageViewer: CMakeFiles/ImageViewer.dir/build.make
 ImageViewer: CMakeFiles/ImageViewer.dir/compiler_depend.ts
 ImageViewer: display-wayland/libdisplay-wayland.a
+ImageViewer: /usr/lib64/libwayland-client.so
+ImageViewer: /usr/lib64/libm.so
 ImageViewer: CMakeFiles/ImageViewer.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/pax/random_git_clones/wayland-client/ImageClient/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ImageViewer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ImageViewer.dir/link.txt --verbose=$(VERBOSE)

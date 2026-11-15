@@ -3,6 +3,10 @@
 // this is standard among linux desktops, but requires extra bullshit
 #include "xdg-shell-client-protocol.h"
 
+
+// this is just some bullshit.
+// dont worry about it.
+// we gotta play ping pong with xdg so it knows we exist.
 void sh_ping(void* data, struct xdg_wm_base* sh, uint32_t ser) {
     xdg_wm_base_pong(sh, ser);
 }
@@ -77,7 +81,7 @@ int main(void)
 
     struct wl_surface *surface = wl_compositor_create_surface(compositor);
 
-
+    // gonna need to figure out how to dynamically resize this <3
     int width = 200;
     int height = 200;
     int stride = width * 4;
@@ -90,12 +94,37 @@ int main(void)
     // map it to the memory
     unsigned char *data = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 
+    // we need to make this into a function to write pixel data.
+    // <3
+    // write to that memory.
+    for (int x = 0; x < width; x++) {
+    for (int y = 0; y < height; y++) {
+
+        struct pixel {
+            // little-endian ARGB
+            unsigned char blue;
+            unsigned char green;
+            unsigned char red;
+            unsigned char alpha;
+        } *px = (struct pixel *) (data + y * stride + x * 4);
+
+        // yellow
+        px->alpha = 255;
+        px->red = 255;
+        px->green = 255;
+        px->blue = 0;
+        }
+    }
+
     // turn it into a shared memory pool
+    // This takes in FD, which we can write to by modifying data itself.
     struct wl_shm_pool *pool = wl_shm_create_pool(shm, fd, size);
 
     // allocate the buffer in that pool
+    // this is where we can draw pixels to the screen!
+    // Changing A to X makes it a black window!
     struct wl_buffer *buffer = wl_shm_pool_create_buffer(pool,
-        0, width, height, stride, WL_SHM_FORMAT_XRGB8888);
+        0, width, height, stride, WL_SHM_FORMAT_ARGB8888);
         
     // all the XDG specific stuff
     struct xdg_surface* xdgsurface = xdg_wm_base_get_xdg_surface(shell, surface);
@@ -104,9 +133,11 @@ int main(void)
 
 
     wl_surface_attach(surface, buffer, 0, 0); // commit to the wayland compositr
+    
     wl_surface_commit(surface);
 
     while (1) {
         wl_display_dispatch(display);
     }
+
 }

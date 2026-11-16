@@ -8,13 +8,13 @@
 #include <syscall.h>
 #include <unistd.h>
 #include <sys/mman.h>
-
 #include <wayland-client.h>
 #include "xdg-shell-client-protocol.h"
+#include "display.h"
 
 
-// this is just some bullshit.
-// dont worry about it.
+
+// dont worry about this.
 // we gotta play ping pong with xdg so it knows we exist.
 void sh_ping(void* data, struct xdg_wm_base* sh, uint32_t ser) {
     xdg_wm_base_pong(sh, ser);
@@ -27,7 +27,7 @@ struct xdg_wm_base_listener sh_list = {
 // this is the window itself.
 // this allows us to set properties, like title and such.
 // we could add listeners to it, like when the window is opened or closed, or when a keyboard input happens
-// for what we want to do (display image), we dont need that shit
+// for what we want to do (display image), we dont need that
 // nvm we need the listeners.
 // look here: https://wayland-book.com/xdg-shell-basics.html
 struct xdg_toplevel* top;
@@ -72,15 +72,14 @@ const struct wl_registry_listener registry_listener = {
     .global_remove = registry_global_remove_handler
 };
 
-/*
-Displays an image;
-width, height are width and height of the image respectively
-pix[][] is a c-type 3d array consisting of integers, that hold width,height,blue,green,red,alpha pixels
+/**
+Displays a color, given a width and height
 */
-int display_window_image(
-    const raw_image* raw_image
+void display_window_color(
+    struct raw_color *raw_color
 )
 {
+    int stride = raw_color->width * 4; // ARGB8888 uses 4 bytes per pixel; Wayland stride is bytes per row.
     // The core global object. This is a special singleton object. It is used for internal Wayland protocol features.
     // 0 is the display. Usually set by the WAYLAND_DISPLAY env var.
     // 0 means it will display on your current WAYLAND environment.
@@ -97,9 +96,9 @@ int display_window_image(
     struct wl_surface *surface = wl_compositor_create_surface(compositor);
  
     
-    // gonna need to figure out how to dynamically resize this <3
+    // gonna need to figure out how to dynamically resize this
     
-    int size = stride * height;  // bytes
+    int size = stride * raw_color->height;  // bytes
 
     // open an anonymous file and write some zero bytes to it
     int fd = syscall(SYS_memfd_create, "buffer", 0);
@@ -109,10 +108,9 @@ int display_window_image(
     unsigned char *data = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 
     // we need to make this into a function to write pixel data.
-    // <3
     // write to that memory.
-    for (int x = 0; x < width; x++) {
-    for (int y = 0; y < height; y++) {
+    for (int x = 0; x < raw_color->width; x++) {
+    for (int y = 0; y < raw_color->height; y++) {
 
         struct pixel {
             // little-endian ARGB
@@ -123,10 +121,10 @@ int display_window_image(
         } *px = (struct pixel *) (data + y * stride + x * 4);
 
         // yellow
-        px->alpha = pix[width][height][0];
-        px->red = pix[width][height][1];
-        px->green = pix[width][height][2];
-        px->blue = pix[width][height][3];
+        px->alpha = raw_color->color->alpha;
+        px->red = raw_color->color->red;
+        px->green = raw_color->color->green;
+        px->blue = raw_color->color->blue;
         }
     }
 
@@ -138,7 +136,7 @@ int display_window_image(
     // this is where we can draw pixels to the screen!
     // Changing A to X makes it a black window!
     struct wl_buffer *buffer = wl_shm_pool_create_buffer(pool,
-        0, width, height, stride, WL_SHM_FORMAT_ARGB8888);
+        0, raw_color->width, raw_color->height, stride, WL_SHM_FORMAT_ARGB8888);
         
     // all the XDG specific stuff
     struct xdg_surface* xdgsurface = xdg_wm_base_get_xdg_surface(shell, surface);

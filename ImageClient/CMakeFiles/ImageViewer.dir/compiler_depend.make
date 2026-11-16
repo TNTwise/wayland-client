@@ -170,7 +170,6 @@ CMakeFiles/ImageViewer.dir/main.cpp.o: main.cpp \
   /usr/include/c++/16/compare \
   /usr/include/c++/16/concepts \
   /usr/include/c++/16/cstddef \
-  /usr/include/c++/16/cstdint \
   /usr/include/c++/16/cstdio \
   /usr/include/c++/16/cstdlib \
   /usr/include/c++/16/cwchar \
@@ -331,8 +330,6 @@ display-wayland/libdisplay-wayland.a:
 
 /usr/lib/gcc/x86_64-redhat-linux/16/include/mm_malloc.h:
 
-/usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h:
-
 /usr/include/c++/16/bits/memoryfwd.h:
 
 /usr/include/c++/16/bits/istream.tcc:
@@ -368,6 +365,8 @@ display-wayland/libdisplay-wayland.a:
 /usr/lib64/libwayland-client.so:
 
 /usr/include/c++/16/ios:
+
+/usr/include/c++/16/bits/basic_ios.tcc:
 
 /usr/include/c++/16/bits/basic_ios.h:
 
@@ -727,10 +726,6 @@ main.cpp:
 
 /usr/include/c++/16/cstddef:
 
-/usr/include/c++/16/bits/basic_ios.tcc:
-
-/usr/include/c++/16/cstdint:
-
 /usr/include/c++/16/cstdio:
 
 /usr/include/bits/fp-fast.h:
@@ -870,3 +865,5 @@ CMakeFiles/ImageViewer.dir/main.cpp.o:
 /usr/include/sys/single_threaded.h:
 
 /usr/include/time.h:
+
+/usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h:

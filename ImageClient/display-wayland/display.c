@@ -72,36 +72,11 @@ const struct wl_registry_listener registry_listener = {
     .global_remove = registry_global_remove_handler
 };
 
-/**
-Displays a color, given a width and height
-*/
-void display_window_color(
-    struct raw_color *raw_color
-)
-{
-    int stride = raw_color->width * 4; // ARGB8888 uses 4 bytes per pixel; Wayland stride is bytes per row.
-    // The core global object. This is a special singleton object. It is used for internal Wayland protocol features.
-    // 0 is the display. Usually set by the WAYLAND_DISPLAY env var.
-    // 0 means it will display on your current WAYLAND environment.
-    struct wl_display *display = wl_display_connect(0);
-    struct wl_registry *registry = wl_display_get_registry(display);
-    wl_registry_add_listener(registry, &registry_listener, NULL);
-
-    // wait for the "initial" set of globals to appear
-    wl_display_roundtrip(display);
-
-    // This is a surface.
-    // A surface is just a bunch of pixels
-    // it has many requests it can do to the server, like destroy, and damage
-    struct wl_surface *surface = wl_compositor_create_surface(compositor);
- 
-    
-    // gonna need to figure out how to dynamically resize this
-    
-    int size = stride * raw_color->height;  // bytes
-
+void draw_window_color(struct raw_color *raw_color) {
     // open an anonymous file and write some zero bytes to it
     int fd = syscall(SYS_memfd_create, "buffer", 0);
+    int stride = raw_color->width * COLOR_BPP;
+    int size = stride * raw_color->height;  // bytes
     ftruncate(fd, size);
 
     // map it to the memory
@@ -127,6 +102,42 @@ void display_window_color(
         px->blue = raw_color->color->blue;
         }
     }
+    display_window_buffer(
+        raw_color->width,
+        raw_color->height,
+        COLOR_BPP,
+        fd
+    );
+}
+
+
+/**
+Displays a color, given a width and height
+*/
+void display_window_buffer(
+    int32_t width,
+    int32_t height,
+    int bpp,
+    int fd
+)
+{
+    int stride = width * bpp; // ARGB8888 uses 4 bytes per pixel; Wayland stride is bytes per row.
+    int size = stride * height;  // bytes
+    // The core global object. This is a special singleton object. It is used for internal Wayland protocol features.
+    // 0 is the display. Usually set by the WAYLAND_DISPLAY env var.
+    // 0 means it will display on your current WAYLAND environment.
+    struct wl_display *display = wl_display_connect(0);
+    struct wl_registry *registry = wl_display_get_registry(display);
+    wl_registry_add_listener(registry, &registry_listener, NULL);
+
+    // wait for the "initial" set of globals to appear
+    wl_display_roundtrip(display);
+
+    // This is a surface.
+    // A surface is just a bunch of pixels
+    // it has many requests it can do to the server, like destroy, and damage
+    struct wl_surface *surface = wl_compositor_create_surface(compositor);
+    
 
     // turn it into a shared memory pool
     // This takes in FD, which we can write to by modifying data itself.
@@ -136,7 +147,7 @@ void display_window_color(
     // this is where we can draw pixels to the screen!
     // Changing A to X makes it a black window!
     struct wl_buffer *buffer = wl_shm_pool_create_buffer(pool,
-        0, raw_color->width, raw_color->height, stride, WL_SHM_FORMAT_ARGB8888);
+        0, width, height, stride, WL_SHM_FORMAT_ARGB8888);
         
     // all the XDG specific stuff
     struct xdg_surface* xdgsurface = xdg_wm_base_get_xdg_surface(shell, surface);

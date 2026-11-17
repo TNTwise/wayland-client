@@ -1,7 +1,6 @@
 #include <iostream>
 #include "display-wayland/display.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "extern/stb_image.h"
 
 using namespace std;
 
@@ -25,13 +24,13 @@ int main(int argc, char* argv[]) {
     display_window_image(raw_image);
     */
 
-    width = 200;
+    width = 700;
     height = 300;
     struct color color = {
         .red = 255,
-        .green = 0,
-        .blue = 0,
-        .alpha = 0
+        .green = 255,
+        .blue = 255,
+        .alpha = 255
     };
     struct raw_color raw_color = {
         .width = width,
@@ -40,6 +39,6 @@ int main(int argc, char* argv[]) {
         
     };
 
-    display_window_color(&raw_color);
+    // draw_window_color(&raw_color);
     return 0;
 }

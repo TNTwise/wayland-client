@@ -1,6 +1,6 @@
+#pragma once
 #include <string>
 #include <array>
-
 
 
 
@@ -18,6 +18,10 @@ public:
     void write_to_anon_file(int fb) const;
 
     int get_height() const;
+
+    int get_width() const;
+
+    int get_channels() const;
 
     // struct pixel get_pixel_at(u_int8_t x, u_int8_t, y);
 

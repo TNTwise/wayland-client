@@ -48,13 +48,13 @@ void registry_global_handler
     uint32_t version
 ) {
     if (strcmp(interface, "wl_compositor") == 0) {
-        compositor = wl_registry_bind(registry, name,
-            &wl_compositor_interface, 3);
+        compositor = static_cast<wl_compositor*>(wl_registry_bind(registry, name,
+            &wl_compositor_interface, 3));
     } else if (strcmp(interface, "wl_shm") == 0) {
-        shm = wl_registry_bind(registry, name,
-            &wl_shm_interface, 1);
+        shm = static_cast<wl_shm*>(wl_registry_bind(registry, name,
+            &wl_shm_interface, 1));
     } else if (strcmp(interface, "xdg_wm_base") == 0) {
-        shell = wl_registry_bind(registry, name, &xdg_wm_base_interface, 1);
+        shell = static_cast<xdg_wm_base*>(wl_registry_bind(registry, name, &xdg_wm_base_interface, 1));
         xdg_wm_base_add_listener(shell, &sh_list, 0);
     }
 }
@@ -80,7 +80,7 @@ void draw_window_color(struct raw_color *raw_color) {
     ftruncate(fd, size);
 
     // map it to the memory
-    unsigned char *data = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    unsigned char *data = static_cast<unsigned char*>(mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0));
 
     // we need to make this into a function to write pixel data.
     // write to that memory.

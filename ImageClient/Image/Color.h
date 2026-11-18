@@ -1,4 +1,5 @@
-#include <Image.h>
+#pragma once
+#include "Image.h"
 
 struct color{
     int r;
@@ -9,7 +10,7 @@ struct color{
 
 class Color : public Image {
 private:
-    color color;
+    color color_;
 public:
-    Color(const std::string &file_path, struct color color);
+    Color(const std::string &file_path, struct color color_);
 };

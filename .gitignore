@@ -16,3 +16,6 @@ Makefile
 
 # Out-of-source CMake build
 /ImageClient/build/
+
+# VScode settings
+.vscode/

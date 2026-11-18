@@ -39,6 +39,6 @@ int main(int argc, char* argv[]) {
         
     };
 
-    // draw_window_color(&raw_color);
+    draw_window_color(&raw_color);
     return 0;
 }

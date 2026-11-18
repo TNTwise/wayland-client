@@ -1,5 +1,6 @@
 add_library(Image
     Image.cpp
+    Color.cpp
     stb_image.cpp
 )
 

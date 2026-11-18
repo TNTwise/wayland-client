@@ -5,6 +5,7 @@ cmake_install.cmake
 Makefile
 
 # Compiled artifacts
+build/
 *.o
 *.o.d
 *.a
@@ -13,3 +14,6 @@ Makefile
 /ImageClient/ImageViewer
 /ImageClient/display-wayland/run-display
 /from_scratch/w
+
+# VScode
+.vscode/

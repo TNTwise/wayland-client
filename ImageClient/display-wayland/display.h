@@ -1,4 +1,7 @@
+#pragma once
 #include <stdint.h>
+#include "Image.h"
+
 
 #define COLOR_BPP 4
 
@@ -28,7 +31,7 @@ extern "C" {
 
 // void display_window_image(struct raw_image *image);
 // void display_window_color(struct raw_color *color);
-void draw_window_color(struct raw_color *color);
+void draw_window_image(Image &image);
 
 #ifndef DISPLAY_WINDOW_BUFFER
 #define DISPLAY_WINDOW_BUFFEr

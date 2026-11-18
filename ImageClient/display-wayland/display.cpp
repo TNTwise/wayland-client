@@ -1,3 +1,5 @@
+// this should be restructed into an actual class
+
 // would like to make note, wayland shells are depricated.
 // We use xdg desktop shell (x desktop group)
 // this is standard among linux desktops, but requires extra bullshit
@@ -11,7 +13,7 @@
 #include <wayland-client.h>
 #include "xdg-shell-client-protocol.h"
 #include "display.h"
-
+#include "Image.h"
 
 
 // dont worry about this.
@@ -72,11 +74,11 @@ const struct wl_registry_listener registry_listener = {
     .global_remove = registry_global_remove_handler
 };
 
-void draw_window_color(struct raw_color *raw_color) {
+void draw_window_image(Image* image) {
     // open an anonymous file and write some zero bytes to it
     int fd = syscall(SYS_memfd_create, "buffer", 0);
-    int stride = raw_color->width * COLOR_BPP;
-    int size = stride * raw_color->height;  // bytes
+    int stride = image->get_width() * COLOR_BPP;
+    int size = stride * ->height;  // bytes
     ftruncate(fd, size);
 
     // map it to the memory

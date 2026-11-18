@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/ImageViewer.dir/link.d CMakeFiles/ImageViewer.dir/main.cpp.o -o ImageViewer  display-wayland/libdisplay-wayland.a /usr/lib64/libwayland-client.so -lm -lgcc_s_asneeded -lgcc_s_asneeded

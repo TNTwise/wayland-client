@@ -4,3 +4,6 @@
 /home/pax/random_git_clones/wayland-client/ImageClient/display-wayland/CMakeFiles/display-wayland.dir
 /home/pax/random_git_clones/wayland-client/ImageClient/display-wayland/CMakeFiles/edit_cache.dir
 /home/pax/random_git_clones/wayland-client/ImageClient/display-wayland/CMakeFiles/rebuild_cache.dir
+/home/pax/random_git_clones/wayland-client/ImageClient/Image/CMakeFiles/Image.dir
+/home/pax/random_git_clones/wayland-client/ImageClient/Image/CMakeFiles/edit_cache.dir
+/home/pax/random_git_clones/wayland-client/ImageClient/Image/CMakeFiles/rebuild_cache.dir

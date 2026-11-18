@@ -97,6 +97,7 @@ ImageViewer: CMakeFiles/ImageViewer.dir/main.cpp.o
 ImageViewer: CMakeFiles/ImageViewer.dir/build.make
 ImageViewer: CMakeFiles/ImageViewer.dir/compiler_depend.ts
 ImageViewer: display-wayland/libdisplay-wayland.a
+ImageViewer: Image/libImage.a
 ImageViewer: /usr/lib64/libwayland-client.so
 ImageViewer: /usr/lib64/libm.so
 ImageViewer: CMakeFiles/ImageViewer.dir/link.txt

@@ -11,6 +11,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/4.3.0/CMakeCXXCompiler.cmake"
   "CMakeFiles/4.3.0/CMakeSystem.cmake"
   "CMakeLists.txt"
+  "Image/CMakeLists.txt"
   "display-wayland/CMakeLists.txt"
   "/usr/share/cmake/Modules/CMakeCInformation.cmake"
   "/usr/share/cmake/Modules/CMakeCXXInformation.cmake"
@@ -55,10 +56,12 @@ set(CMAKE_MAKEFILE_OUTPUTS
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   "display-wayland/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "Image/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/ImageViewer.dir/DependInfo.cmake"
   "display-wayland/CMakeFiles/display-wayland.dir/DependInfo.cmake"
+  "Image/CMakeFiles/Image.dir/DependInfo.cmake"
   )

@@ -142,6 +142,19 @@ display-wayland/fast:
 	$(MAKE) $(MAKESILENT) -f display-wayland/CMakeFiles/display-wayland.dir/build.make display-wayland/CMakeFiles/display-wayland.dir/build
 .PHONY : display-wayland/fast
 
+#=============================================================================
+# Target rules for targets named Image
+
+# Build rule for target.
+Image: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Image
+.PHONY : Image
+
+# fast build rule for target.
+Image/fast:
+	$(MAKE) $(MAKESILENT) -f Image/CMakeFiles/Image.dir/build.make Image/CMakeFiles/Image.dir/build
+.PHONY : Image/fast
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -174,6 +187,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... Image"
 	@echo "... ImageViewer"
 	@echo "... display-wayland"
 	@echo "... main.o"

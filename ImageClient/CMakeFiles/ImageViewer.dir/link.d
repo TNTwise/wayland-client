@@ -4,6 +4,7 @@ ImageViewer: \
   /usr/lib/gcc/x86_64-redhat-linux/16/crtbegin.o \
   CMakeFiles/ImageViewer.dir/main.cpp.o \
   display-wayland/libdisplay-wayland.a \
+  Image/libImage.a \
   /usr/lib64/libwayland-client.so \
   /usr/lib/gcc/x86_64-redhat-linux/16/libgcc_s_asneeded.so \
   /usr/lib/gcc/x86_64-redhat-linux/16/libgcc_s_asneeded.so \
@@ -66,6 +67,8 @@ ImageViewer: \
 CMakeFiles/ImageViewer.dir/main.cpp.o:
 
 display-wayland/libdisplay-wayland.a:
+
+Image/libImage.a:
 
 /usr/lib64/libwayland-client.so:
 

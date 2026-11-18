@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/pax/random_git_clones/wayland-client/ImageClient/extern -I/home/pax/random_git_clones/wayland-client/ImageClient/display-wayland/include
+CXX_INCLUDES = -I/home/pax/random_git_clones/wayland-client/ImageClient/extern -I/home/pax/random_git_clones/wayland-client/ImageClient/Image -I/home/pax/random_git_clones/wayland-client/ImageClient/display-wayland/include -I/home/pax/random_git_clones/wayland-client/ImageClient/Image/include
 
 CXX_FLAGS = 
 

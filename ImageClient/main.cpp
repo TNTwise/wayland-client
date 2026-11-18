@@ -1,10 +1,11 @@
 #include <iostream>
+#include "Image/Image.h"
 #include "display-wayland/display.h"
 #define STB_IMAGE_IMPLEMENTATION
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
+void draw_color() {
     int width, height, bpp;
     /*
     uint8_t* rgb_image = stbi_load("website.jpg", &width, &height, &bpp, 3);
@@ -40,5 +41,13 @@ int main(int argc, char* argv[]) {
     };
 
     draw_window_color(&raw_color);
+}
+
+int main(int argc, char* argv[]) {
+    Image image = Image(std::string("website.jpg"));
+
+    cout << image.get_height() << endl;
+    
     return 0;
+
 }

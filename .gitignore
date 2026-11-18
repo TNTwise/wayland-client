@@ -1,1 +1,19 @@
+# CMake build output
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Compiled artifacts
+build/
+*.o
+*.o.d
+*.a
+
+# Project executables
+/ImageClient/ImageViewer
+/ImageClient/display-wayland/run-display
+/from_scratch/w
+
+# VScode
 .vscode/

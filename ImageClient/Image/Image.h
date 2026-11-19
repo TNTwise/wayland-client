@@ -11,6 +11,7 @@ private:
     int width;
     int height;
     int channels;
+    // int assign_shared_memory();
 public:
     Image(const std::string &file_path);
     ~Image();
@@ -22,6 +23,8 @@ public:
     int get_width() const;
 
     int get_channels() const;
+
+    // u_int8_t get_image_bytes();
 
     // struct pixel get_pixel_at(u_int8_t x, u_int8_t, y);
 

@@ -48,8 +48,8 @@ int main(int argc, char* argv[]) {
 
     // cout << image.get_height() << endl;
     // draw_color();
-    int fd = image.get_shared_memory();
-
+    // int fd = image.get_shared_memory();
+    
     display_window_buffer(
         image.get_width(),
         image.get_height(),

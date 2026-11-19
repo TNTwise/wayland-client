@@ -13,7 +13,9 @@ private:
     int channels;
     // int assign_shared_memory();
 public:
-    Image(const std::string &file_path);
+    explicit Image(const std::string &file_path);
+    Image(const Image& image);
+    Image& operator=(const Image& image);
     ~Image();
 
     int get_shared_memory() const; //instead of passing it through to display.cpp, create an image in main and get fd from image itself.

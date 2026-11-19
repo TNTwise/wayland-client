@@ -7,13 +7,18 @@
 #include <array>
 using namespace std;
 
-Image::Image(const string &file_path) : file_path{file_path} {
+explicit Image::Image(const string &file_path) : file_path{file_path} {
     int width, height, channels;
     this->image_bytes = stbi_load(file_path.c_str(), &width, &height, &channels, 3);
     this->width = width;
     this->height = height;
     this->channels = channels;
 
+}
+Image::Image(const Image& image) : Image{image.file_path} {}
+
+Image& Image::operator=(const Image& other){
+    return *this;
 }
 
 int Image::get_height() const {

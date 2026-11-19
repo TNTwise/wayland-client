@@ -1,3 +1,5 @@
+// this should be restructed into an actual class
+
 // would like to make note, wayland shells are depricated.
 // We use xdg desktop shell (x desktop group)
 // this is standard among linux desktops, but requires extra bullshit
@@ -11,7 +13,6 @@
 #include <wayland-client.h>
 #include "xdg-shell-client-protocol.h"
 #include "display.h"
-
 
 
 // dont worry about this.
@@ -71,44 +72,6 @@ const struct wl_registry_listener registry_listener = {
     .global = registry_global_handler,
     .global_remove = registry_global_remove_handler
 };
-
-void draw_window_color(struct raw_color *raw_color) {
-    // open an anonymous file and write some zero bytes to it
-    int fd = syscall(SYS_memfd_create, "buffer", 0);
-    int stride = raw_color->width * COLOR_BPP;
-    int size = stride * raw_color->height;  // bytes
-    ftruncate(fd, size);
-
-    // map it to the memory
-    unsigned char *data = static_cast<unsigned char*>(mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0));
-
-    // we need to make this into a function to write pixel data.
-    // write to that memory.
-    for (int x = 0; x < raw_color->width; x++) {
-    for (int y = 0; y < raw_color->height; y++) {
-
-        struct pixel {
-            // little-endian ARGB
-            unsigned char blue;
-            unsigned char green;
-            unsigned char red;
-            unsigned char alpha;
-        } *px = (struct pixel *) (data + y * stride + x * 4);
-
-        // yellow
-        px->alpha = raw_color->color->alpha;
-        px->red = raw_color->color->red;
-        px->green = raw_color->color->green;
-        px->blue = raw_color->color->blue;
-        }
-    }
-    display_window_buffer(
-        raw_color->width,
-        raw_color->height,
-        COLOR_BPP,
-        fd
-    );
-}
 
 
 /**

@@ -11,17 +11,20 @@ private:
     int width;
     int height;
     int channels;
+    // int assign_shared_memory();
 public:
     Image(const std::string &file_path);
-    
+    ~Image();
 
-    void write_to_anon_file(int fb) const;
+    int get_shared_memory() const; //instead of passing it through to display.cpp, create an image in main and get fd from image itself.
 
     int get_height() const;
 
     int get_width() const;
 
     int get_channels() const;
+
+    // u_int8_t get_image_bytes();
 
     // struct pixel get_pixel_at(u_int8_t x, u_int8_t, y);
 

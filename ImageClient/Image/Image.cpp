@@ -7,12 +7,15 @@
 #include <array>
 using namespace std;
 
-explicit Image::Image(const string &file_path) : file_path{file_path} {
+Image::Image(const string &file_path) : file_path{file_path} {
     int width, height, channels;
     this->image_bytes = stbi_load(file_path.c_str(), &width, &height, &channels, 3);
     this->width = width;
     this->height = height;
     this->channels = channels;
+    if (channels > 3) {
+        this->contains_alpha = true;
+    }
 
 }
 Image::Image(const Image& image) : Image{image.file_path} {}
@@ -31,6 +34,10 @@ int Image::get_width() const {
 
 int Image::get_channels() const {
     return this->channels;
+}
+
+u_int8_t* Image::get_pixel_location(int x, int y) const {
+    return this->image_bytes + (x + get_width() * y) * get_channels();
 }
 
 int Image::get_shared_memory() const {
@@ -57,9 +64,8 @@ int Image::get_shared_memory() const {
         } *px = (struct pixel *) (data + y * stride + x * 4);
         
         // this links to the start of image bytes, and uses ptr arithmatic to get the offset to where in the list the current pixel is.
-        u_int8_t* pxl_offset = this->image_bytes + (x + get_width() * y) * get_channels();
+        u_int8_t* pxl_offset = get_pixel_location(x, y);
 
-        // yellow
         px->alpha = 255;
         px->red = pxl_offset[0];
         px->green = pxl_offset[1];
@@ -72,4 +78,43 @@ int Image::get_shared_memory() const {
 
 Image::~Image() {
     stbi_image_free(this->image_bytes);
+}
+
+void Image::validate_x_y(int x, int y) const {
+    assert(x < width && x >= 0);
+    assert(y < height && y >= 0);
+}
+
+int Image::get_red_value(int x, int y) const {
+    validate_x_y(x, y);
+    return get_pixel_location(x, y)[0];
+}
+
+int Image::get_green_value(int x, int y) const {
+    validate_x_y(x, y);
+    return get_pixel_location(x, y)[1];
+}
+
+int Image::get_blue_value(int x, int y) const {
+   validate_x_y(x, y);
+    return get_pixel_location(x, y)[2]; 
+}
+
+int Image::get_alpha_value(int x, int y) const {
+    assert(contains_alpha == true);
+    validate_x_y(x, y);
+    return get_pixel_location(x, y)[3];
+}
+
+
+
+void Image::modify_pixel(int x, int y, int r, int g, int b) {
+    validate_x_y(x, y);
+    assert(r >= 0 && r <= 255);
+    assert(g >= 0 && g <= 255);
+    assert(b >= 0 && b <= 255);
+    u_int8_t* pxl_offset = get_pixel_location(x, y);
+    pxl_offset[0] = r;
+    pxl_offset[1] = g;
+    pxl_offset[2] = b;
 }

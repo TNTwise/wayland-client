@@ -2,6 +2,7 @@ add_library(Image
     Color.cpp
     Image.cpp
     stb_image.cpp
+    filter.cpp
 )
 
 find_package(PkgConfig REQUIRED)

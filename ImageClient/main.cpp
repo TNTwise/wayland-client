@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Image/Image.h"
 #include "display-wayland/display.h"
+#include "Image/filter.h"
 #define STB_IMAGE_IMPLEMENTATION
 
 using namespace std;
@@ -45,7 +46,7 @@ void draw_color() {
 
 int main(int argc, char* argv[]) {
     Image image = Image(std::string("website.jpg"));
-
+    image = RedFilter(image);
     // cout << image.get_height() << endl;
     // draw_color();
     // int fd = image.get_shared_memory();

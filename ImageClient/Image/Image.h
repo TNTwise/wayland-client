@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <array>
+#include <assert.h>
 
 
 
@@ -11,7 +12,9 @@ private:
     int width;
     int height;
     int channels;
-    // int assign_shared_memory();
+    bool contains_alpha;
+    void validate_x_y(int x, int y) const;
+    u_int8_t* get_pixel_location(int x, int y) const;
 public:
     explicit Image(const std::string &file_path);
     Image(const Image& image);
@@ -26,8 +29,15 @@ public:
 
     int get_channels() const;
 
-    // u_int8_t get_image_bytes();
+    int get_red_value(int x, int y) const;
 
-    // struct pixel get_pixel_at(u_int8_t x, u_int8_t, y);
+    int get_green_value(int x, int y) const;
+
+    int get_blue_value(int x, int y) const;
+
+    int get_alpha_value(int x, int y) const;
+
+
+    void modify_pixel(int x, int y, int r, int g, int b);
 
 };

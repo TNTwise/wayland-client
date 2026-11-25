@@ -17,31 +17,18 @@ protected:
     u_int8_t* image_bytes; // this needs to be modifiable
 public:
     explicit BaseImage(const std::string &file_path) : file_path{file_path} {
-        int width, height, channels;
-        this->image_bytes = stbi_load(file_path.c_str(), &width, &height, &channels, 3);
-        this->width = width;
-        this->height = height;
-        this->channels = channels;
+        
     }
     BaseImage(const BaseImage& image) : BaseImage{image.file_path} {}
     BaseImage& operator=(const BaseImage& image) {
         return *this;
     }
-    ~BaseImage() {
-        stbi_image_free(this->image_bytes);
-    }
+    virtual ~BaseImage() = default;
 
-    int get_height() const {
-        return this->height;
-    }
+    virtual int get_height() const = 0;
 
-    int get_width() const {
-        return this->width;
-    }
-
-    int get_channels() const {
-        return this->channels;
-    }
-
-    BaseImage& filter(BaseImage& image);
+    virtual int get_width() const = 0;
+    virtual int get_channels() const = 0;
+    virtual void modify_pixel(int x, int y, int r, int g, int b, int a) = 0;
+    virtual BaseImage& filter() = 0;
 };

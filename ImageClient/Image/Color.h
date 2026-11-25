@@ -8,7 +8,7 @@ struct color{
     int a;
 };
 
-class Color : public Image {
+class Color : public BaseImage {
 private:
     color color_;
 public:

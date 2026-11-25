@@ -1,36 +1,12 @@
 #include "stb_image.h"
 #include "Image.h"
 #include <string>
-#include <syscall.h>
 #include <unistd.h>
 #include <sys/mman.h>
-#include <array>
 using namespace std;
 
-explicit Image::Image(const string &file_path) : file_path{file_path} {
-    int width, height, channels;
-    this->image_bytes = stbi_load(file_path.c_str(), &width, &height, &channels, 3);
-    this->width = width;
-    this->height = height;
-    this->channels = channels;
+Image::Image(const string &file_path) : BaseImage(file_path) {
 
-}
-Image::Image(const Image& image) : Image{image.file_path} {}
-
-Image& Image::operator=(const Image& other){
-    return *this;
-}
-
-int Image::get_height() const {
-    return this->height;
-}
-
-int Image::get_width() const {
-    return this->width;
-}
-
-int Image::get_channels() const {
-    return this->channels;
 }
 
 int Image::get_shared_memory() const {
@@ -68,8 +44,4 @@ int Image::get_shared_memory() const {
     }
 
     return fd;
-}
-
-Image::~Image() {
-    stbi_image_free(this->image_bytes);
 }

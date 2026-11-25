@@ -67,9 +67,9 @@ int Image::get_shared_memory() const {
         u_int8_t* pxl_offset = get_pixel_location(x, y);
 
         px->alpha = 255;
-        px->red = pxl_offset[0];
-        px->green = pxl_offset[1];
-        px->blue = pxl_offset[2];
+        px->red = get_red_value(x,y);
+        px->green = get_green_value(x,y);
+        px->blue = get_blue_value(x,y);
         }
     }
 
@@ -80,9 +80,27 @@ Image::~Image() {
     stbi_image_free(this->image_bytes);
 }
 
+
+
+
+
 void Image::validate_x_y(int x, int y) const {
     assert(x < width && x >= 0);
     assert(y < height && y >= 0);
+}
+
+void Image::validate_c(int c) const {
+    assert (c <= channels && c >= 0);
+}
+
+void Image::validate_v(int v) const {
+    assert (v <= 255 && v >= 0);
+}
+
+int Image::get_pixel_value(int x, int y, int c) const {
+    validate_x_y(x, y);
+    validate_c(c);
+    return get_pixel_location(x, y)[c];
 }
 
 int Image::get_red_value(int x, int y) const {
@@ -110,11 +128,19 @@ int Image::get_alpha_value(int x, int y) const {
 
 void Image::modify_pixel(int x, int y, int r, int g, int b) {
     validate_x_y(x, y);
-    assert(r >= 0 && r <= 255);
-    assert(g >= 0 && g <= 255);
-    assert(b >= 0 && b <= 255);
+    validate_v(r);
+    validate_v(g);
+    validate_v(b);
     u_int8_t* pxl_offset = get_pixel_location(x, y);
     pxl_offset[0] = r;
     pxl_offset[1] = g;
     pxl_offset[2] = b;
+}
+
+void Image::modify_pixel(int x, int y, int c, int v) {
+    validate_x_y(x, y);
+    validate_c(c);
+    validate_v(v);
+    u_int8_t* pxl_offset = get_pixel_location(x, y);
+    pxl_offset[c] = v;
 }

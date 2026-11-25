@@ -14,6 +14,8 @@ private:
     int channels;
     bool contains_alpha;
     void validate_x_y(int x, int y) const;
+    void validate_c(int c) const;
+    void validate_v(int v) const;
     u_int8_t* get_pixel_location(int x, int y) const;
 public:
     explicit Image(const std::string &file_path);
@@ -29,6 +31,8 @@ public:
 
     int get_channels() const;
 
+    int get_pixel_value(int x, int y, int c) const;
+
     int get_red_value(int x, int y) const;
 
     int get_green_value(int x, int y) const;
@@ -39,5 +43,7 @@ public:
 
 
     void modify_pixel(int x, int y, int r, int g, int b);
+
+    void modify_pixel(int x, int y, int c, int v);
 
 };

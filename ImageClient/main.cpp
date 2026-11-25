@@ -8,6 +8,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
     Image image = Image(std::string("website.jpg"));
+
     
     // cout << image.get_height() << endl;
     // draw_color();

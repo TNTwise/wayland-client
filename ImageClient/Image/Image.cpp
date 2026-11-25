@@ -8,15 +8,12 @@
 using namespace std;
 
 Image::Image(const string &file_path) : file_path{file_path} {
-    int width, height, channels;
-    this->image_bytes = stbi_load(file_path.c_str(), &width, &height, &channels, 3);
+    int width, height, source_channels;
+    this->image_bytes = stbi_load(file_path.c_str(), &width, &height, &source_channels, 4);
     this->width = width;
     this->height = height;
-    this->channels = channels;
-    if (channels > 3) {
-        this->contains_alpha = true;
-    }
-
+    this->channels = 4;
+    this->contains_alpha = source_channels == 2 || source_channels == 4;
 }
 Image::Image(const Image& image) : Image{image.file_path} {}
 
@@ -43,7 +40,8 @@ u_int8_t* Image::get_pixel_location(int x, int y) const {
 int Image::get_shared_memory() const {
     // open an anonymous file and write some zero bytes to it
     int fd = syscall(SYS_memfd_create, "buffer", 0);
-    int stride = get_width() * get_channels();
+    constexpr int bytes_per_pixel = 4;
+    int stride = get_width() * bytes_per_pixel;
     int size = stride * get_height();  // bytes
     ftruncate(fd, size);
 
@@ -52,8 +50,8 @@ int Image::get_shared_memory() const {
 
     // we need to make this into a function to write pixel data.
     // write to that memory.
-    for (int x = 0; x < get_width(); x++) {
     for (int y = 0; y < get_height(); y++) {
+    for (int x = 0; x < get_width(); x++) {
 
         struct pixel {
             // little-endian ARGB
@@ -61,11 +59,8 @@ int Image::get_shared_memory() const {
             unsigned char green;
             unsigned char red;
             unsigned char alpha;
-        } *px = (struct pixel *) (data + y * stride + x * 4);
+        } *px = (struct pixel *) (data + y * stride + x * bytes_per_pixel);
         
-        // this links to the start of image bytes, and uses ptr arithmatic to get the offset to where in the list the current pixel is.
-        u_int8_t* pxl_offset = get_pixel_location(x, y);
-
         px->alpha = 255;
         px->red = get_red_value(x,y);
         px->green = get_green_value(x,y);
